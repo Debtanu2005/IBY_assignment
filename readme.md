@@ -56,7 +56,7 @@ The end-to-end workflow of this AI Agent is as follows:
      - Passed the refined context + question to Gemini for final answer generation.  
 
 7. **Evaluation**
-   - Compared generated summaries against gold references using **ROUGE** and **BLEU**.  
+   - Compared generated summaries against gold references using **ROUGE**.  
    - Stored results in `result.txt`.  
 
 ---
@@ -109,6 +109,7 @@ We used **ROUGE metrics** to measure summarization quality:
 - ✅ Data science report (fine-tuning setup, evaluation with ROUGE scores)  
 
 ---
+
 
 
 
