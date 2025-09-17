@@ -27,11 +27,46 @@ I chose **scientific summarization** as the fine-tuning task because:
 
 ---
 
+## ⚙️ Workflow
+
+The end-to-end workflow of this AI Agent is as follows:
+
+1. **Data Preparation**
+   - Used [This kaggle](https://www.kaggle.com/datasets/gowrishankarp/newspaper-text-summarization-cnn-dailymail) dataset  for training the summarization model.  
+
+2. **Fine-Tuning**
+   - Fine-tuned **facebook/bart-base**  (`finetune.py`).  
+
+3. **Document Processing**
+   - Loaded PDF files (e.g., lecture notes, technical papers) using `PyPDFLoader`.  
+   - Preprocessed into clean text segments.  
+
+4. **Vector Store (RAG Setup)**
+   - Embedded text chunks using **Gemini Embeddings**.  
+   - Stored embeddings in **Chroma** and **InMemoryVectorStore** for semantic retrieval.  
+   - This allows the agent to **retrieve only the most relevant document pieces** instead of passing entire PDFs to the model.  
+
+5. **Question Generation**
+   - Used Gemini model (`gemini-1.5-flash-latest`) to generate 2–3 questions per paragraph (`question_generator.py`).  
+
+6. **Answer Generation (RAG in Action)**
+   - For each question:
+     - Retrieved the **top-k most relevant chunks** from the vector store.  
+     - Summarized the retrieved context using the fine-tuned model.  
+     - Passed the refined context + question to Gemini for final answer generation.  
+
+7. **Evaluation**
+   - Compared generated summaries against gold references using **ROUGE** and **BLEU**.  
+   - Stored results in `result.txt`.  
+
+---
+
+
 ## 🏗️ Agent Architecture
 **Components & Flow:**
 1. **Document Loader** – Load PDF lecture notes/reports using `PyPDFLoader`.  
 2. **Vector Store** – Store embeddings with Chroma for semantic search.  
-3. **Fine-Tuned Model** – `finetune.py` trains Qwen3 with LoRA on arXiv summarization dataset.  
+3. **Fine-Tuned Model** – `finetune.py` trains facebook/bart with LoRA on arXiv summarization dataset.  
 4. **Question Generator** – `question_generator.py` generates exam-style questions.  
 5. **Answer Generator** – Retrieves context, summarizes it, and produces answers.  
 6. **Evaluator** – Uses ROUGE/BLEU metrics to evaluate agent reliability.  
@@ -39,7 +74,7 @@ I chose **scientific summarization** as the fine-tuning task because:
 ---
 
 ## 📂 Repository Contents
-- `finetune.py` → Fine-tuning setup (Qwen + LoRA on arXiv dataset).  
+- `finetune.py` → Fine-tuning setup .  
 - `question_generator.py` → AI Agent logic (question generation + answering).  
 - `result.txt` → Generated Q&A outputs.  
 - `Process_QA` used to evaluate the mertics
@@ -74,6 +109,7 @@ We used **ROUGE metrics** to measure summarization quality:
 - ✅ Data science report (fine-tuning setup, evaluation with ROUGE scores)  
 
 ---
+
 
 
 
