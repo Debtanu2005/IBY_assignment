@@ -7,22 +7,13 @@ import re
 from dotenv import load_dotenv
 import google.generativeai as genai
 
-# from finetune import get_summary
+from finetune import get_summary
 
 load_dotenv()
 
-# Get API key from environment or fallback
 geminai_key = os.getenv("geminai_key")
 if not geminai_key:
     geminai_key = "AIzaSyBjvWwAFFAdT1KpVaz4VCEtAMXtb2rKkak"
-
-# Set GOOGLE_API_KEY environment variable if not already set and geminai_key is not None
-if geminai_key and not os.environ.get("GOOGLE_API_KEY"):
-    os.environ["GOOGLE_API_KEY"] = geminai_key
-
-
-# Get API key from environment or fallback
-
 
 
 genai.configure(api_key=geminai_key)
@@ -117,7 +108,7 @@ def generate_answer(state:graph_satate):
   for question in state["question_set"]:
     docs = vector_store.similarity_search(question, k=3)
     context = "\n\n".join([doc.page_content for doc in docs])
-    # context = get_summary(context)
+    context = get_summary(context)
     prompt = f"{system_prompt}\n\nDocument:\n{context}\n\nQuestion: {question}\n\nAnswer:"
     response = answer_generator.generate_content(prompt)
     answers[question] = response.text
@@ -158,5 +149,6 @@ from rouge_score import rouge_scorer
 scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
 
 print(scorer.score(reference,result))
+
 
 
