@@ -1,0 +1,378 @@
+Page 2
+
+Q: What is the difference between a program and a process? A: A program
+is a passive entity stored on disk, while a process is an active
+instance of a program in execution.
+
+Q: When does a program become a process? A: A program becomes a process
+when the executable file is loaded into memory.
+
+Page 3
+
+Q: What are the main sections in the memory layout of a process? A: The
+memory layout includes text (code), initialized data, uninitialized
+data, heap, and stack.
+
+Q: Which part of memory stores dynamically allocated data? A:
+Dynamically allocated data is stored in the heap section.
+
+Page 4
+
+Q: What is the difference between a program and a process? A: A program
+is a passive entity stored on disk, while a process is an active
+instance of a program in execution.
+
+Q: When does a program become a process? A: A program becomes a process
+when the executable file is loaded into memory.
+
+Page 5
+
+Q: What is the role of a Process Control Block (PCB)? A: PCB is the
+primary data structure maintained by the kernel containing information
+about a process.
+
+Q: What kind of information does the PCB store? A: PCB stores process
+state, program counter, CPU registers, memory management info, I/O
+status, and more.
+
+Page 6
+
+Q: What is the difference between a program and a process? A: A program
+is a passive entity stored on disk, while a process is an active
+instance of a program in execution.
+
+Q: When does a program become a process? A: A program becomes a process
+when the executable file is loaded into memory.
+
+Page 8
+
+Q: What are the different states of a process? A: The states are New,
+Ready, Running, Waiting/Blocking, and Terminated.
+
+Q: Which scheduler decides when a process moves from Ready to Running
+state? A: The short-term scheduler decides when a process moves from
+Ready to Running.
+
+Page 10
+
+Q: What is the difference between a program and a process? A: A program
+is a passive entity stored on disk, while a process is an active
+instance of a program in execution.
+
+Q: When does a program become a process? A: A program becomes a process
+when the executable file is loaded into memory.
+
+Page 13
+
+Q: How is a new process created in an operating system? A: A new process
+is created using fork(), which initializes a PCB, allocates resources,
+and adds it to the ready queue.
+
+Q: What is the role of the systemd process in process creation? A:
+systemd is the root parent process (pid 1) that starts at boot and
+creates user processes.
+
+Page 14
+
+Q: How is a new process created in an operating system? A: A new process
+is created using fork(), which initializes a PCB, allocates resources,
+and adds it to the ready queue.
+
+Q: What is the role of the systemd process in process creation? A:
+systemd is the root parent process (pid 1) that starts at boot and
+creates user processes.
+
+Page 15
+
+Q: What is the difference between a program and a process? A: A program
+is a passive entity stored on disk, while a process is an active
+instance of a program in execution.
+
+Q: When does a program become a process? A: A program becomes a process
+when the executable file is loaded into memory.
+
+Q: How is a new process created in an operating system? A: A new process
+is created using fork(), which initializes a PCB, allocates resources,
+and adds it to the ready queue.
+
+Q: What is the role of the systemd process in process creation? A:
+systemd is the root parent process (pid 1) that starts at boot and
+creates user processes.
+
+Page 16
+
+Q: What are some reasons why a process may terminate? A: A process may
+terminate by calling exit()/abort(), encountering a fatal error, or
+being killed by its parent.
+
+Q: What is a zombie process? A: A zombie process is one that has
+finished execution but still has an entry in the process table until the
+parent collects its status.
+
+Page 17
+
+Q: What are some reasons why a process may terminate? A: A process may
+terminate by calling exit()/abort(), encountering a fatal error, or
+being killed by its parent.
+
+Q: What is a zombie process? A: A zombie process is one that has
+finished execution but still has an entry in the process table until the
+parent collects its status.
+
+Page 18
+
+Q: What are some reasons why a process may terminate? A: A process may
+terminate by calling exit()/abort(), encountering a fatal error, or
+being killed by its parent.
+
+Q: What is a zombie process? A: A zombie process is one that has
+finished execution but still has an entry in the process table until the
+parent collects its status.
+
+Page 19
+
+Q: What are some reasons why a process may terminate? A: A process may
+terminate by calling exit()/abort(), encountering a fatal error, or
+being killed by its parent.
+
+Q: What is a zombie process? A: A zombie process is one that has
+finished execution but still has an entry in the process table until the
+parent collects its status.
+
+Page 20
+
+Q: What is the role of the CPU scheduler? A: The CPU scheduler selects
+processes from the ready queue and assigns CPU time according to a
+scheduling policy.
+
+Q: What happens when a higher priority process arrives while another is
+running? A: If a higher priority process arrives, the currently running
+process may be preempted.
+
+Page 21
+
+Q: What is the role of the CPU scheduler? A: The CPU scheduler selects
+processes from the ready queue and assigns CPU time according to a
+scheduling policy.
+
+Q: What happens when a higher priority process arrives while another is
+running? A: If a higher priority process arrives, the currently running
+process may be preempted.
+
+Page 22
+
+Q: What is the role of the CPU scheduler? A: The CPU scheduler selects
+processes from the ready queue and assigns CPU time according to a
+scheduling policy.
+
+Q: What happens when a higher priority process arrives while another is
+running? A: If a higher priority process arrives, the currently running
+process may be preempted.
+
+Page 23
+
+Q: What is the difference between a program and a process? A: A program
+is a passive entity stored on disk, while a process is an active
+instance of a program in execution.
+
+Q: When does a program become a process? A: A program becomes a process
+when the executable file is loaded into memory.
+
+Page 24
+
+Q: What is context switching and why is it considered overhead? A:
+Context switching is saving the state of one process and loading
+another. It is overhead since no useful work is done during the switch.
+
+Q: What factors influence context switch time? A: Context switch time
+depends on hardware support, memory speed, and number of registers.
+
+Page 25
+
+Q: What is the role of the Interrupt Descriptor Table (IDT)? A: The IDT
+maps interrupt identifiers to their corresponding Interrupt Service
+Routines (ISRs).
+
+Q: What steps are performed by an Interrupt Service Routine (ISR)? A: An
+ISR saves the current context, executes its routine, restores the
+context, and may invoke the dispatcher.
+
+Page 26
+
+Q: What is the role of the Interrupt Descriptor Table (IDT)? A: The IDT
+maps interrupt identifiers to their corresponding Interrupt Service
+Routines (ISRs).
+
+Q: What steps are performed by an Interrupt Service Routine (ISR)? A: An
+ISR saves the current context, executes its routine, restores the
+context, and may invoke the dispatcher.
+
+Page 27
+
+Q: What is the role of the Interrupt Descriptor Table (IDT)? A: The IDT
+maps interrupt identifiers to their corresponding Interrupt Service
+Routines (ISRs).
+
+Q: What steps are performed by an Interrupt Service Routine (ISR)? A: An
+ISR saves the current context, executes its routine, restores the
+context, and may invoke the dispatcher.
+
+Page 28
+
+Q: What is the role of the Interrupt Descriptor Table (IDT)? A: The IDT
+maps interrupt identifiers to their corresponding Interrupt Service
+Routines (ISRs).
+
+Q: What steps are performed by an Interrupt Service Routine (ISR)? A: An
+ISR saves the current context, executes its routine, restores the
+context, and may invoke the dispatcher.
+
+Page 29
+
+Q: What is the role of the Interrupt Descriptor Table (IDT)? A: The IDT
+maps interrupt identifiers to their corresponding Interrupt Service
+Routines (ISRs).
+
+Q: What steps are performed by an Interrupt Service Routine (ISR)? A: An
+ISR saves the current context, executes its routine, restores the
+context, and may invoke the dispatcher.
+
+Page 30
+
+Q: What is the role of the Interrupt Descriptor Table (IDT)? A: The IDT
+maps interrupt identifiers to their corresponding Interrupt Service
+Routines (ISRs).
+
+Q: What steps are performed by an Interrupt Service Routine (ISR)? A: An
+ISR saves the current context, executes its routine, restores the
+context, and may invoke the dispatcher.
+
+Page 31
+
+Q: What is the role of the Interrupt Descriptor Table (IDT)? A: The IDT
+maps interrupt identifiers to their corresponding Interrupt Service
+Routines (ISRs).
+
+Q: What steps are performed by an Interrupt Service Routine (ISR)? A: An
+ISR saves the current context, executes its routine, restores the
+context, and may invoke the dispatcher.
+
+Page 32
+
+Q: How does time-sharing work in process scheduling? A: Time-sharing
+gives each process a time quantum to run, after which the CPU switches
+to another process.
+
+Q: What happens when the time quantum of a process expires? A: When the
+time quantum expires, the process is interrupted, its context is saved,
+and the next ready process is scheduled.
+
+Page 33
+
+Q: How does time-sharing work in process scheduling? A: Time-sharing
+gives each process a time quantum to run, after which the CPU switches
+to another process.
+
+Q: What happens when the time quantum of a process expires? A: When the
+time quantum expires, the process is interrupted, its context is saved,
+and the next ready process is scheduled.
+
+Page 34
+
+Q: How does time-sharing work in process scheduling? A: Time-sharing
+gives each process a time quantum to run, after which the CPU switches
+to another process.
+
+Q: What happens when the time quantum of a process expires? A: When the
+time quantum expires, the process is interrupted, its context is saved,
+and the next ready process is scheduled.
+
+Page 35
+
+Q: How does time-sharing work in process scheduling? A: Time-sharing
+gives each process a time quantum to run, after which the CPU switches
+to another process.
+
+Q: What happens when the time quantum of a process expires? A: When the
+time quantum expires, the process is interrupted, its context is saved,
+and the next ready process is scheduled.
+
+Page 36
+
+Q: How does time-sharing work in process scheduling? A: Time-sharing
+gives each process a time quantum to run, after which the CPU switches
+to another process.
+
+Q: What happens when the time quantum of a process expires? A: When the
+time quantum expires, the process is interrupted, its context is saved,
+and the next ready process is scheduled.
+
+Page 37
+
+Q: How does time-sharing work in process scheduling? A: Time-sharing
+gives each process a time quantum to run, after which the CPU switches
+to another process.
+
+Q: What happens when the time quantum of a process expires? A: When the
+time quantum expires, the process is interrupted, its context is saved,
+and the next ready process is scheduled.
+
+Page 38
+
+Q: How does time-sharing work in process scheduling? A: Time-sharing
+gives each process a time quantum to run, after which the CPU switches
+to another process.
+
+Q: What happens when the time quantum of a process expires? A: When the
+time quantum expires, the process is interrupted, its context is saved,
+and the next ready process is scheduled.
+
+Page 39
+
+Q: How does time-sharing work in process scheduling? A: Time-sharing
+gives each process a time quantum to run, after which the CPU switches
+to another process.
+
+Q: What happens when the time quantum of a process expires? A: When the
+time quantum expires, the process is interrupted, its context is saved,
+and the next ready process is scheduled.
+
+Page 40
+
+Q: How does time-sharing work in process scheduling? A: Time-sharing
+gives each process a time quantum to run, after which the CPU switches
+to another process.
+
+Q: What happens when the time quantum of a process expires? A: When the
+time quantum expires, the process is interrupted, its context is saved,
+and the next ready process is scheduled.
+
+Page 41
+
+Q: How does time-sharing work in process scheduling? A: Time-sharing
+gives each process a time quantum to run, after which the CPU switches
+to another process.
+
+Q: What happens when the time quantum of a process expires? A: When the
+time quantum expires, the process is interrupted, its context is saved,
+and the next ready process is scheduled.
+
+Page 42
+
+Q: How does time-sharing work in process scheduling? A: Time-sharing
+gives each process a time quantum to run, after which the CPU switches
+to another process.
+
+Q: What happens when the time quantum of a process expires? A: When the
+time quantum expires, the process is interrupted, its context is saved,
+and the next ready process is scheduled.
+
+Page 43
+
+Q: How does time-sharing work in process scheduling? A: Time-sharing
+gives each process a time quantum to run, after which the CPU switches
+to another process.
+
+Q: What happens when the time quantum of a process expires? A: When the
+time quantum expires, the process is interrupted, its context is saved,
+and the next ready process is scheduled.
