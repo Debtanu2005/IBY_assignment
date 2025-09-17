@@ -50,11 +50,10 @@ I chose **scientific summarization** as the fine-tuning task because:
 ## 📊 Data Science Report
 
 ### Fine-Tuning Setup
-- **Dataset**: [arXiv Summarization Dataset (HuggingFace)](https://huggingface.co/datasets/ccdv/arxiv-summarization)  
-- **Base Model**: Qwen3-Next-80B-Instruct  
-- **Method**: Parameter-efficient fine-tuning using LoRA adapters  
+- **Dataset**: [kaggle dataset](https://www.kaggle.com/datasets/gowrishankarp/newspaper-text-summarization-cnn-dailymail)  
+- **Base Model**: facebook/bart-base  
 - **Quantization**: 4-bit (bitsandbytes) for GPU efficiency  
-- **Training**: 1 epoch, learning rate 2e-4  
+- **Training**: 3 epoch, learning rate 3e-5  
 
 ### Results
 - Model outputs short, abstract-style summaries.  
@@ -76,6 +75,7 @@ We used **ROUGE metrics** to measure summarization quality:
 - ✅ Data science report (fine-tuning setup, evaluation with ROUGE scores)  
 
 ---
+
 
 
 
