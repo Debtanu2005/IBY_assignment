@@ -42,7 +42,6 @@ I chose **scientific summarization** as the fine-tuning task because:
 - `finetune.py` → Fine-tuning setup (Qwen + LoRA on arXiv dataset).  
 - `question_generator.py` → AI Agent logic (question generation + answering).  
 - `result.txt` → Generated Q&A outputs.  
-- `(https://www.kaggle.com/datasets/gowrishankarp/newspaper-text-summarization-cnn-dailymail` → Dataset files for fine-tuning.
 - `Process_QA` used to evaluate the mertics
 
 ---
@@ -75,6 +74,7 @@ We used **ROUGE metrics** to measure summarization quality:
 - ✅ Data science report (fine-tuning setup, evaluation with ROUGE scores)  
 
 ---
+
 
 
 
