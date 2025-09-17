@@ -41,18 +41,6 @@ tokenized_dataset = dataset.map(
 data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model_ckpt)
 
 
-# from evaluate import load as load_metric
-# rouge = load_metric("rouge")
-
-# def compute_metrics(pred):
-#     preds, labels = pred.predictions, pred.label_ids
-#     decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
-#     labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
-#     decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
-#     result = rouge.compute(predictions=decoded_preds, references=decoded_labels, use_stemmer=True)
-#     return {k: v.mid.fmeasure for k, v in result.items()}
-
-
 training_args = TrainingArguments(
     output_dir="./results",
     evaluation_strategy="epoch",
@@ -97,3 +85,4 @@ def get_summary(text, max_length=150):
     )
     summary = tokenizer.decode(outputs[0], skip_special_tokens=True)
     return summary
+
