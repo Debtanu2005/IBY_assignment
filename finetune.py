@@ -1,100 +1,99 @@
 from datasets import load_dataset
-import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
-from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, TrainingArguments, Trainer, DataCollatorForSeq2Seq
+
+data_files = {
+    "train": "train.csv",
+    "validation": "validation.csv"
+}
+dataset = load_dataset('csv', data_files=data_files)
 
 
-dataset = load_dataset("ccdv/arxiv-summarization")
-
-def format_example(example):
-    instruction = "Summarize the following scientific article into a concise abstract."
-    input_text = example["article"]
-    output_text = example["abstract"]
-    prompt = f"### Instruction:\n{instruction}\n\n### Article:\n{input_text}\n\n### Summary:\n"
-    return {"prompt": prompt, "label": output_text}
-
-dataset = dataset.map(format_example)
+model_ckpt = "facebook/bart-base"  
+tokenizer = AutoTokenizer.from_pretrained(model_ckpt)
 
 
-MODEL_NAME = "Qwen/Qwen3-Next-80B-A3B-Instruct"
-
-
-tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, use_fast=False)
-if tokenizer.pad_token_id is None:
-    tokenizer.add_special_tokens({"pad_token": "[PAD]"})
-
-
-bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_use_double_quant=True,
-    bnb_4bit_compute_dtype=torch.float16,
-)
-
-
-model = AutoModelForCausalLM.from_pretrained(
-    MODEL_NAME,
-    device_map="auto",
-    quantization_config=bnb_config,
-    trust_remote_code=True,
-)
-
-
-model = prepare_model_for_kbit_training(model)
-
-lora_config = LoraConfig(
-    r=16,
-    lora_alpha=32,
-    target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
-    lora_dropout=0.05,
-    task_type="CAUSAL_LM",
-)
-model = get_peft_model(model, lora_config)
-model.print_trainable_parameters()
-
-
-def tokenize(batch):
-    inputs = tokenizer(
-        batch["prompt"], max_length=2048, truncation=True, padding="max_length"
+def preprocess(batch):
+    
+    model_inputs = tokenizer(
+        batch["article"],
+        max_length=1024,
+        truncation=True,
+        padding="max_length"
     )
-    labels = tokenizer(
-        batch["label"], max_length=512, truncation=True, padding="max_length"
-    )
+    with tokenizer.as_target_tokenizer():
+        labels = tokenizer(
+            batch["highlights"],
+            max_length=128,
+            truncation=True,
+            padding="max_length"
+        )
+    model_inputs["labels"] = labels["input_ids"]
+    return model_inputs
 
 
-    inputs["labels"] = [
-        [-100] * len(inp) + lab[len(inp):] if len(lab) > len(inp) else lab
-        for inp, lab in zip(inputs["input_ids"], labels["input_ids"])
-    ]
-    return inputs
-
-tokenized = dataset["train"].map(tokenize, batched=True, remove_columns=dataset["train"].column_names)
+tokenized_dataset = dataset.map(
+    preprocess,
+    batched=True,
+    remove_columns=dataset["train"].column_names  
+)
 
 
-from transformers import TrainingArguments, Trainer
+data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model_ckpt)
+
+
+# from evaluate import load as load_metric
+# rouge = load_metric("rouge")
+
+# def compute_metrics(pred):
+#     preds, labels = pred.predictions, pred.label_ids
+#     decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
+#     labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+#     decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+#     result = rouge.compute(predictions=decoded_preds, references=decoded_labels, use_stemmer=True)
+#     return {k: v.mid.fmeasure for k, v in result.items()}
+
 
 training_args = TrainingArguments(
-    output_dir="./qwen_arxiv_summarization",
-    per_device_train_batch_size=1,
-    gradient_accumulation_steps=8,
-    num_train_epochs=1,
-    learning_rate=2e-4,
-    logging_steps=20,
-    save_strategy="steps",
-    save_steps=200,
+    output_dir="./results",
+    evaluation_strategy="epoch",
+    save_strategy="epoch",
+    num_train_epochs=3,
+    per_device_train_batch_size=2,
+    per_device_eval_batch_size=2,
+    learning_rate=3e-5,
+    save_total_limit=2,
+    predict_with_generate=True, 
+    logging_steps=50,
     fp16=True,
-    optim="paged_adamw_8bit",
-    remove_unused_columns=False,
-    push_to_hub=False,
+    load_best_model_at_end=True
 )
+
+
+model = AutoModelForSeq2SeqLM.from_pretrained(model_ckpt)
 
 trainer = Trainer(
     model=model,
     args=training_args,
-    train_dataset=tokenized,
+    train_dataset=tokenized_dataset['train'],
+    eval_dataset=tokenized_dataset['validation'],
     tokenizer=tokenizer,
+    data_collator=data_collator,
+    compute_metrics=compute_metrics,
 )
 
 trainer.train()
-model.save_pretrained("qwen-arxiv-summarizer-lora")
 
+def get_summary(text, max_length=150):
+    prompt = f"### Instruction:\nSummarize the following scientific article into a concise abstract.\n\n### Article:\n{text}\n\n### Summary:\n"
+    inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
+    outputs = model.generate(
+        **inputs,
+        max_new_tokens=max_length,
+        do_sample=True,
+        top_p=0.9,
+        temperature=0.8,
+        eos_token_id=tokenizer.eos_token_id,
+        pad_token_id=tokenizer.pad_token_id,
+    )
+    summary = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return summary
