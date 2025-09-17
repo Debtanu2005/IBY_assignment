@@ -1,12 +1,9 @@
-readme_content = """
-# Test Lab AI Agent
+# Question generator ai agent
 
 ## Author
-- **Name**: [Your Name Here]
-- **University**: [Your University Here]
-- **Department**: [Your Department Here]
-
-This repository is part of my intern application project.
+- **Name**: Debtanu Das   
+- **University**: IIT Bhubaneswar
+- **Department**: Computer Science
 
 ---
 
@@ -69,11 +66,6 @@ We used **ROUGE metrics** to measure summarization quality:
 - **ROUGE-2**: Precision = 0.184, Recall = 0.369, F1 = 0.245  
 - **ROUGE-L**: Precision = 0.212, Recall = 0.427, F1 = 0.284  
 
-These results show the fine-tuned model achieves **good recall (captures most relevant content)** and moderate precision, meaning summaries are **comprehensive** but can be further refined for conciseness.  
-
-Additionally:
-- **BLEU**: For sentence-level evaluation (future experiments).  
-- **Human Evaluation**: Summaries rated for clarity, faithfulness, and conciseness.  
 
 ---
 
@@ -83,5 +75,6 @@ Additionally:
 - ✅ Data science report (fine-tuning setup, evaluation with ROUGE scores)  
 
 ---
+
 
 
