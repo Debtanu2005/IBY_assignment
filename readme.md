@@ -84,7 +84,4 @@ Additionally:
 
 ---
 
-## 🔧 How to Run
-1. Fine-tune the model:
-   ```bash
-   python finetune.py
+
